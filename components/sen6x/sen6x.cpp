@@ -363,11 +363,12 @@ bool SEN5XComponent::write_tuning_parameters_(uint16_t i2c_command, const GasTun
 }
 
 bool SEN5XComponent::write_temperature_compensation_(const TemperatureCompensation &compensation) {
-  uint16_t params[3];
+  uint16_t params[4];
   params[0] = compensation.offset;
   params[1] = compensation.normalized_offset_slope;
   params[2] = compensation.time_constant;
-  if (!write_command(SEN5X_CMD_TEMPERATURE_COMPENSATION, params, 3)) {
+  params[3] = 0
+  if (!write_command(SEN5X_CMD_TEMPERATURE_COMPENSATION, params, 4)) {
     ESP_LOGE(TAG, "set temperature_compensation failed. Err=%d", this->last_error_);
     return false;
   }
